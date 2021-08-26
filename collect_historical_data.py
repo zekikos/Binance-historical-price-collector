@@ -12,12 +12,12 @@ ssl._create_default_https_context = ssl._create_unverified_context
 
 
 ### CONSTANTS
-binsizes = {"1m": 1, "5m": 5, "1h": 60, "4h": 240, "1d": 1440}
+binsizes = {"1m": 1, "5m": 5, "15m": 15, "1h": 60, "4h": 240, "1d": 1440}
 batch_size = 750
 binance_client = Client()
 
 symbol = input("What symbol do you want data from? (BTCUSDT, BNBBTC...)  ")
-timeline = input("What timeline? (1m, 5m, 1h, 4h OR 1d)  ")
+timeline = input("What timeline? (1m, 5m, 15m, 1h, 4h OR 1d)  ")
 
 
 
