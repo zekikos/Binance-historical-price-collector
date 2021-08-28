@@ -18,6 +18,7 @@ binance_client = Client()
 
 symbol = input("What symbol do you want data from? (BTCUSDT, BNBBTC...)  ")
 timeline = input("What timeline? (1m, 5m, 15m, 1h, 4h OR 1d)  ")
+fromwhen = input("From when? (Milliseconds) ")
 
 
 
@@ -44,13 +45,13 @@ def minutes_of_new_data(symbol, kline_size, data, source):
     if source == "binance": new = pd.to_datetime(binance_client.get_klines(symbol='BTCUSDT', interval=kline_size)[-1][0], unit='ms')
     return old, new
 
-def get_all_binance(symbol, kline_size, from = 0, save = False):
+def get_all_binance(symbol, kline_size, fromw = 0, save = False):
     filename = '%s-%s-data.csv' % (symbol, kline_size)
     if os.path.isfile(filename): data_df = pd.read_csv(filename)
     else: data_df = pd.DataFrame()
     oldest_point, newest_point = minutes_of_new_data(symbol, kline_size, data_df, source = "binance")
-    if from != 0:
-        oldest_point = from
+    if fromw != 0:
+        oldest_point = fromw
     delta_min = (newest_point - oldest_point).total_seconds()/60
     available_data = math.ceil(delta_min/binsizes[kline_size])
     if oldest_point == datetime.strptime(lastdate, '%Y-%m-%d %H:%M:%S'): print('Downloading all available %s data for %s.' % (kline_size, symbol))
@@ -68,4 +69,4 @@ def get_all_binance(symbol, kline_size, from = 0, save = False):
     return data_df
 
 
-get_all_binance(symbol, timeline, save = True)
+get_all_binance(symbol, timeline, fromw = fromwhen, save = True)
